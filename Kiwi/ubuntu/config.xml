@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<image schemaversion="6.8" name="Custom Ubuntu 22.04">
+    <description type="system">
+        <author>Sidik Hadi K</author>
+        <contact>mail@mail.com</contact>
+        <specification>Custom Ubuntu 22.04 with Docker installed</specification>
+    </description>
+    <profiles>
+        <profile name="Disk" description="Expandable Disk image"/>
+    </profiles>
+    <preferences>
+        <version>0.0.1</version>
+        <packagemanager>apt-get</packagemanager>
+        <locale>en_US</locale>
+        <keytable>us</keytable>
+        <timezone>UTC</timezone>
+        <rpm-check-signatures>false</rpm-check-signatures>
+    </preferences>
+    <preferences profiles="Disk">
+        <type image="oem" filesystem="ext4" initrd_system="dracut" firmware="efi" installiso="true">
+            <oemconfig>
+                <oem-swap>true</oem-swap>
+                <oem-device-filter>/dev/ram</oem-device-filter>
+                <oem-multipath-scan>false</oem-multipath-scan>
+            </oemconfig>
+        </type>
+    </preferences>
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"/>
+    </users>
+    <repository type="apt-deb" repository_gpgcheck="false" package_gpgcheck="false" imageinclude="true">
+        <source path="obs://Virtualization:Appliances:Builder/xUbuntu_22.04"/>
+    </repository>
+    <repository type="apt-deb" alias="Jammy-security" distribution="jammy-security" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://security.ubuntu.com/ubuntu"/>
+    </repository>
+    <repository type="apt-deb" alias="Jammy-updates" distribution="jammy-updates" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+    </repository>
+    <repository type="apt-deb" alias="Jammy" distribution="jammy" components="main multiverse restricted universe" repository_gpgcheck="false">
+        <source path="http://us.archive.ubuntu.com/ubuntu/"/>
+    </repository>
+    <packages type="image">
+        <package name="grub-efi-amd64"/>
+        <package name="grub-common"/>
+        <package name="grub2-common"/>
+        <package name="grub-pc-bin"/>
+        <package name="linux-generic"/>
+        <package name="isolinux"/>
+        <package name="syslinux"/>
+        <package name="syslinux-common"/>
+        <package name="systemd"/>
+        <package name="dracut"/>
+        <package name="init"/>
+        <package name="gnupg"/>
+        <package name="iproute2"/>
+        <package name="iptables"/>
+        <package name="iputils-ping"/>
+        <package name="ifupdown"/>
+        <package name="isc-dhcp-client"/>
+        <package name="netbase"/>
+        <package name="dbus"/>
+        <package name="xz-utils"/>
+        <package name="btrfs-progs"/>
+        <package name="shim"/>
+        <package name="shim-signed"/>
+        <package name="docker-compose"/>
+        <package name="docker"/>
+    </packages>
+    <packages type="oem">
+        <package name="dracut-kiwi-oem-repart"/>
+        <package name="dracut-kiwi-oem-dump"/>
+    </packages>
+    <packages type="bootstrap">
+        <!-- comptibility package for /usr/lib paths -->
+        <package name="usrmerge"/>
+    </packages>
+</image>
